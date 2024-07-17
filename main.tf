@@ -142,3 +142,5 @@ data "azurerm_public_ip" "sandbox_ip_data" {
 output "Sandbox-ip-out" {
     value = "${azurerm_linux_virtual_machine.sandbox-Lvm.name}: ${data.azurerm_public_ip.sandbox_ip_data.ip_address}"
 }
+
+blah
