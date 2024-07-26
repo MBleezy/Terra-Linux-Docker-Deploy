@@ -52,7 +52,7 @@ resource "azurerm_network_security_rule" "sandbox-nsr" {
   protocol                    = "*"
   source_port_range           = "*"
   destination_port_range      = "*"
-  source_address_prefix       = "76.122.137.82/32"
+  source_address_prefix       = var.sourceIP
   destination_address_prefix  = "*"
   resource_group_name         = data.azurerm_resource_group.sandbox-rg.name
   network_security_group_name = azurerm_network_security_group.sandbox-nsg.name
@@ -114,9 +114,9 @@ resource "azurerm_linux_virtual_machine" "sandbox-Lvm" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-lts"
+    publisher = "canonical"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
     version   = "latest"
   }
 
@@ -135,10 +135,10 @@ resource "azurerm_linux_virtual_machine" "sandbox-Lvm" {
 }
 
 data "azurerm_public_ip" "sandbox_ip_data" {
-    name = azurerm_public_ip.sandbox-Ip1.name
-    resource_group_name = data.azurerm_resource_group.sandbox-rg.name
+  name                = azurerm_public_ip.sandbox-Ip1.name
+  resource_group_name = data.azurerm_resource_group.sandbox-rg.name
 }
 
 output "Sandbox-ip-out" {
-    value = "${azurerm_linux_virtual_machine.sandbox-Lvm.name}: ${data.azurerm_public_ip.sandbox_ip_data.ip_address}"
+  value = "${azurerm_linux_virtual_machine.sandbox-Lvm.name}: ${data.azurerm_public_ip.sandbox_ip_data.ip_address}"
 }
